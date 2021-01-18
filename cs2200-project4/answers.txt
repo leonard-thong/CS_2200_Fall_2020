@@ -1,0 +1,80 @@
+CS 2200 Spring 2020
+Project 4
+
+Name: Shaotong Sun
+GT Username: ssun319
+
+Problem 1B (FCFS Scheduler)
+----------
+
+CPU: 1
+Total execution time: 67.9 s
+CPU: 2
+Total execution time: 39.9 s
+CPU: 4
+Total execution time: 37.0 s
+
+There is not a linear relationship, it is more like exponential decay. Increase the cpu number can decrease the execution time, but when number goes up, execution decrease less. That is because, with more cpu, some cpu may in idle (not doing anything), which will not improve the efficiency.
+
+Problem 2B (Round-Robin Scheduler)
+----------
+
+200ms:
+Total Context Switches: 363
+Total execution time: 67.9 s
+Total time spent in READY state: 284.4 s
+400ms:
+Total Context Switches: 202
+Total execution time: 68.0 s
+Total time spent in READY state: 295.1 s
+600ms:
+Total Context Switches: 156
+Total execution time: 67.9 s
+Total time spent in READY state: 302.3 s
+800ms:
+Total Context Switches: 131
+Total execution time: 67.9 s
+Total time spent in READY state: 317.1 s
+
+There is a relationship between total waiting time and timeslic. When timeslice goes up, total waiting time goes up. The execution time stayed the same, context switches decrease when timeslice increase. In real OS, the shortest timeslice is not always the best choice, that is because CPU will switch more between process in order to finish the work.
+
+Problem 3B (Round-Robin With Priority)
+----------
+
+CPU: 1
+Total Context Switches: 216
+Total execution time: 67.9 s
+Total time spent in READY state: 226.5 s
+Throughput = 8/67.9 = 0.118
+CPU: 2
+Total Context Switches: 222
+Total execution time: 40.8 s
+Total time spent in READY state: 31.4 s
+Throughput = 8/40.8 = 0.196
+CPU: 4
+Total Context Switches: 240
+Total execution time: 37.1 s
+Total time spent in READY state: 0.2 s
+Throughput = 8/37.1 = 0.216
+
+Throughput improve in proportion to the number of CPUs.
+
+FCFS:
+Total Context Switches: 94
+Total execution time: 67.9 s
+Total time spent in READY state: 372.1 s
+RR:
+Total Context Switches: 202
+Total execution time: 67.9 s
+Total time spent in READY state: 291.7 s
+RR w\ P:
+Total Context Switches: 264
+Total execution time: 67.9 s
+Total time spent in READY state: 246.0 s
+
+Round-Robin with Priority has the lowest waiting time. FCFS usually has higher average waiting times, because it needs to finished the first in process first, and relatively short processes may have to wait several cycles before being completed. Round-Robin with Priority, it make sure that long process has low priority because long process need to schedule several times which will lower the priority of the long process, at the same time the new scheduled process may have higher priority so it, if the new process short enough, the priority may decrease its CPU and I/O waiting time to let it finish first instead of the long process. And also it makes sure that process that finished IO part will quickly finished. That is because when process schedule will lower the priority, and yield will increase the priority, which will make the IO finished processes have higher priority than others.
+
+Problem 4 (The Priority Inversion Problem)
+---------
+Temporarily let Z inherit the X priority. When X is blocked on a Shared resource, Z executes its critical section at the high priority of X. Therefore, Y will not preempt Z and will be blocked. That is, high-priority job Y must wait for the critical section of low-priority job Z to be executed because Z inherits the priority of X. When Z exits its critical section, it restores its original priority and wakes up X. X has a high priority, it preempts Z and runs until completion. This allows Y and Z to continuously recover and run to the completion without priority inversion.
+
